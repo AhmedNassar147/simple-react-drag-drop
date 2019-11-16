@@ -1,38 +1,54 @@
 import React from "react";
 import Board from "./components/Board";
-import Card from "./components/Card";
+import { initialBoards, BoardInterface } from "./dummy";
 
-const App: React.FC = () => (
-  <div className="App">
-    <header>React App For Drap and Drop</header>
-    <main>
-      <Board id="board-1" title="Todos">
-        <Card draggable id="card-1">
-          <span>bord1 - card1</span>
-        </Card>
-      </Board>
+const { useState, useCallback } = React;
 
-      <Board id="board-2" title="on Progress">
-        <Card draggable id="card-2">
-          <span>2-card-2</span>
-        </Card>
+const App: React.FC = () => {
+  const [boards, setBoards] = useState<BoardInterface[]>(initialBoards);
 
-        <Card draggable id="card-3">
-          <span>2-card-3</span>
-        </Card>
-      </Board>
+  const onAddBoard = useCallback(
+    (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+      return setBoards((oldBoard: React.SetStateAction<BoardInterface[]>) => {
+        const newId = (oldBoard ? oldBoard.length + 1 : 1).toString();
+        const newBoards = oldBoard.length ? oldBoard : [];
+        return [...newBoards, { id: newId, title: "" }];
+      });
+    },
+    [setBoards]
+  );
 
-      <Board id="board-3" title="Done">
-        <Card draggable id="card-4">
-          <span>3-card-4</span>
-        </Card>
+  const onChangeBoardName = useCallback(
+    (value, id) => {
+      setBoards((oldBoard: BoardInterface[]) => {
+        return oldBoard.map(item => {
+          if (item.id === id) {
+            return {
+              ...item,
+              title: value
+            };
+          } else return item;
+        });
+      });
+    },
+    [setBoards]
+  );
 
-        <Card draggable id="card-5">
-          <span>3-card-5</span>
-        </Card>
-      </Board>
-    </main>
-  </div>
-);
+  return (
+    <div className="App">
+      <header>React App For Drap and Drop</header>
+      <main>
+        {boards.map(board => (
+          <Board
+            {...board}
+            key={board.id}
+            onAddBoard={onAddBoard}
+            onChangeBoardName={onChangeBoardName}
+          />
+        ))}
+      </main>
+    </div>
+  );
+};
 
 export default App;

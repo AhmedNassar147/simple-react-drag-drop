@@ -1,14 +1,13 @@
 import React from "react";
 import "./index.css";
 
-export interface CProps {
+export interface CardProps {
   children: React.ReactNode;
   id: string;
   style?: React.CSSProperties;
-  draggable: boolean;
 }
 
-const Card: React.FC<CProps> = (props: CProps): JSX.Element => {
+const Card: React.FC<CardProps> = (props: CardProps): JSX.Element => {
   const { children, ...restProps } = props;
 
   const onDragStart = (event: React.DragEvent<HTMLElement>) => {
@@ -25,6 +24,7 @@ const Card: React.FC<CProps> = (props: CProps): JSX.Element => {
       className="card"
       onDragStart={onDragStart}
       onDragOver={onDragOver}
+      draggable
       {...restProps}
     >
       {children}

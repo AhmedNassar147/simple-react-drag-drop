@@ -1,0 +1,32 @@
+.board-header {
+  margin: 0;
+  background-color: #bae7ff;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  padding: 0px 4px;
+  height: 30px;
+}
+
+.board-header > .button-icon {
+  display: none;
+}
+
+.board-header > input {
+  border: 0px;
+  border-radius: 0px;
+  background-color: transparent;
+}
+
+.board-header:hover > input {
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.board-header:hover > .button-icon {
+  display: inline;
+  transition: all 0.3s ease-in-out;
+}
